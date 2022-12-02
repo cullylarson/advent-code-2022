@@ -10,6 +10,6 @@ export const readInput = filename => then(compose(
   map(sum),
   map(map(toInt(0))),
   map(split('\n')),
-  map(trim),
   split('\n\n'),
+  trim,
 ), readFile(filename, {encoding: 'utf8'}))
