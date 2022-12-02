@@ -1,7 +1,7 @@
 import {compose, report, map} from '@cullylarson/f'
 import {then} from '@cullylarson/p'
 import {readInput, LOSE, DRAW, WIN} from './lib.js'
-import {sum} from '../lib.js'
+import {sum, rel} from '../lib.js'
 
 const resultTable = {
   X: LOSE,
@@ -51,4 +51,4 @@ then(compose(
   report,
   sum,
   map(playRound),
-), readInput('input.txt'))
+), readInput(rel(import.meta.url, 'input.txt')))

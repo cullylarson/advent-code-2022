@@ -7,7 +7,7 @@ module.exports = {
     'jest': true,
   },
   'parserOptions': {
-    'ecmaVersion': 2018,
+    'ecmaVersion': 2022,
     'sourceType': 'module',
   },
   'rules': {
