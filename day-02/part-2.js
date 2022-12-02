@@ -1,15 +1,12 @@
 import {compose, report, map} from '@cullylarson/f'
 import {then} from '@cullylarson/p'
-import {readInput} from './lib.js'
+import {readInput, LOSE, DRAW, WIN} from './lib.js'
 import {sum} from '../lib.js'
 
 const resultTable = {
-  // lose
-  X: -1,
-  // draw
-  Y: 0,
-  // win
-  Z: 1,
+  X: LOSE,
+  Y: DRAW,
+  Z: WIN,
 }
 
 const toolScore = {
@@ -40,9 +37,9 @@ const playedToolScore = {
 }
 
 const roundScore = {
-  [-1]: 0,
-  0: 3,
-  1: 6,
+  [LOSE]: 0,
+  [DRAW]: 3,
+  [WIN]: 6,
 }
 
 const playRound = ([you, me]) => {

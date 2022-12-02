@@ -1,6 +1,6 @@
 import {compose, report, map} from '@cullylarson/f'
 import {then} from '@cullylarson/p'
-import {readInput} from './lib.js'
+import {readInput, LOSE, DRAW, WIN} from './lib.js'
 import {sum} from '../lib.js'
 
 // -1: left side wins
@@ -8,23 +8,23 @@ import {sum} from '../lib.js'
 // 1: right side wins
 const winTable = {
   // rock / rock
-  'A X': 0,
+  'A X': DRAW,
   // rock / paper
-  'A Y': 1,
+  'A Y': WIN,
   // rock / scissor
-  'A Z': -1,
+  'A Z': LOSE,
   // paper / rock
-  'B X': -1,
+  'B X': LOSE,
   // paper / paper
-  'B Y': 0,
+  'B Y': DRAW,
   // paper / scissor
-  'B Z': 1,
+  'B Z': WIN,
   // scissor / rock
-  'C X': 1,
+  'C X': WIN,
   // scissor / paper
-  'C Y': -1,
+  'C Y': LOSE,
   // scissor / scissor
-  'C Z': 0,
+  'C Z': DRAW,
 }
 
 const toolScore = {
@@ -34,9 +34,9 @@ const toolScore = {
 }
 
 const roundScore = {
-  [-1]: 0,
-  0: 3,
-  1: 6,
+  [LOSE]: 0,
+  [DRAW]: 3,
+  [WIN]: 6,
 }
 
 const playRound = ([you, me]) => {
