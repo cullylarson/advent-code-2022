@@ -1,10 +1,6 @@
 import {compose, map, split, trim, toInt} from '@cullylarson/f'
 import {then} from '@cullylarson/p'
-import {readFile} from '../lib.js'
-
-const add = (a, b) => a + b
-
-export const sum = xs => xs.reduce(add, 0)
+import {readFile, sum} from '../lib.js'
 
 export const readInput = filename => then(compose(
   map(sum),
