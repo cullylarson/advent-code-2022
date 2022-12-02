@@ -10,13 +10,13 @@
   "author": "Cully Larson",
   "dependencies": {
     "@cullylarson/f": "^0.1.2",
-    "@cullylarson/p": "^0.1.0",
-    "eslint": "^8.3.0",
-    "eslint-plugin-import": "^2.25.3",
-    "eslint-plugin-jest": "^25.3.0",
+    "@cullylarson/p": "^0.1.1",
+    "eslint": "^8.28.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jest": "^27.1.6",
     "eslint-watch": "^8.0.0",
-    "jest": "^27.4.2",
-    "standard": "^16.0.4"
+    "jest": "^29.3.1",
+    "standard": "^17.0.0"
   },
   "devDependencies": {}
 }

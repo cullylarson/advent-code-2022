@@ -1,8 +1,8 @@
-import {compose, report, map, split, trim, toInt} from '@cullylarson/f'
+import {compose, map, split, trim, toInt} from '@cullylarson/f'
 import {then} from '@cullylarson/p'
 import {readFile} from '../lib.js'
 
-const add = (a, b) => a + b;
+const add = (a, b) => a + b
 
 export const sum = xs => xs.reduce(add, 0)
 
