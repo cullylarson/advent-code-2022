@@ -3,9 +3,6 @@ import {then} from '@cullylarson/p'
 import {readInput, LOSE, DRAW, WIN} from './lib.js'
 import {sum} from '../lib.js'
 
-// -1: left side wins
-// 0: draw
-// 1: right side wins
 const winTable = {
   // rock / rock
   'A X': DRAW,
