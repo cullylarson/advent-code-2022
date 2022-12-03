@@ -1,4 +1,4 @@
-import {compose, report, map, head} from '@cullylarson/f'
+import {compose, report, map, head, curry} from '@cullylarson/f'
 import {then} from '@cullylarson/p'
 import {readInput, getPriority} from './lib.js'
 import {rel, sum} from '../lib.js'
@@ -10,15 +10,17 @@ const findCommon = ([a, b, c]) => {
   return [...aSet].filter(x => bSet.has(x) && cSet.has(x))
 }
 
-const groupThree = xs => {
-  const groups = []
+const group = curry((n, xs) => xs.reduce((acc, x, i) => {
+  const groupNum = Math.floor(i / n)
 
-  for(let i = 0; i < xs.length; i += 3) {
-    groups.push([xs[i], xs[i + 1], xs[i + 2]])
+  if(!acc[groupNum]) {
+    acc[groupNum] = []
   }
 
-  return groups
-}
+  acc[groupNum].push(x)
+
+  return acc
+}, []))
 
 then(compose(
   report,
@@ -26,5 +28,5 @@ then(compose(
   map(getPriority),
   map(head),
   map(findCommon),
-  groupThree,
+  group(3),
 ), readInput(rel(import.meta.url, 'input.txt')))
