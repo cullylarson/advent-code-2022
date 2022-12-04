@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "lint": "esw --watch --color .",
-    "test:days": "node --experimental-vm-modules $(npm bin)/jest ./test/all.test.js"
+    "test:days": "node --experimental-vm-modules $(npm bin)/jest ./test/days.test.js"
   },
   "author": "Cully Larson",
   "dependencies": {
