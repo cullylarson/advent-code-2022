@@ -56,6 +56,10 @@ const parts = {
     part: 'day-07/part-1.js',
     answer: '1749646',
   },
+  'day 7, part 2': {
+    part: 'day-07/part-2.js',
+    answer: '1498966',
+  },
 }
 
 const run = async (scriptPath) => {
