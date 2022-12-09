@@ -6,5 +6,5 @@ import {rel} from '../lib.js'
 then(compose(
   report,
   ([, lastTailVisited]) => lastTailVisited.size,
-  xs => xs.reduce(doStep, [{H: [0, 0], T: buildTails(1)}, new Set()]),
+  xs => xs.reduce(doStep, [{H: [0, 0], T: buildTails(9)}, new Set()]),
 ), readInput(rel(import.meta.url, 'input.txt')))

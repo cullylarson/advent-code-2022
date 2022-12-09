@@ -1,4 +1,4 @@
-import {getDistance} from '../part-1.js'
+import {getDistance} from '../lib.js'
 
 test('left distance is 1', () => {
   expect(getDistance([3, 4], [3, 5])).toBe(1)
