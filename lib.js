@@ -16,6 +16,8 @@ export const readFile = promisify(fs.readFile)
 
 export const add = (a, b) => a + b
 
+export const max = xs => Math.max(...xs)
+
 export const sum = xs => xs.reduce(add, 0)
 
 export const length = xs => xs.length

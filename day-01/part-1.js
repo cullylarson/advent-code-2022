@@ -1,9 +1,7 @@
 import {compose, report} from '@cullylarson/f'
 import {then} from '@cullylarson/p'
 import {readInput} from './lib.js'
-import {rel} from '../lib.js'
-
-const max = xs => Math.max(...xs)
+import {rel, max} from '../lib.js'
 
 then(compose(
   report,
