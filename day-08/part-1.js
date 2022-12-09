@@ -3,16 +3,14 @@ import {then} from '@cullylarson/p'
 import {readInput, getCol} from './lib.js'
 import {rel, max} from '../lib.js'
 
-const isVisibleList = (list, tree, treeIdx) => {
-  const treesBeforeThis = list.slice(0, treeIdx)
-  const treesAfterThis = list.slice(treeIdx + 1)
-  const talltestTreeBeforeThis = max(treesBeforeThis)
-  const talltestTreeAfterThis = max(treesAfterThis)
+const isVisibleSubList = (list, tree) => {
+  // is visible if no trees taller
+  return max(list) < tree
+}
 
-  // visible if there aren't any trees before this one that are taller or after
-  // this one that are taller
-  return talltestTreeBeforeThis < tree
-    || talltestTreeAfterThis < tree
+const isVisibleList = (list, tree, treeIdx) => {
+  return isVisibleSubList(list.slice(0, treeIdx), tree)
+    || isVisibleSubList(list.slice(treeIdx + 1), tree)
 }
 
 const isVisibleRow = (board, x, y) => {
@@ -24,7 +22,9 @@ const isVisibleCol = (board, x, y) => {
 }
 
 const isVisible = (board, x, y) => {
+  // edge
   if(x === 0 || y === 0) return true
+  // edge
   if(x === board[y].length - 1 || y === board.length - 1) return true
 
   return isVisibleRow(board, x, y) || isVisibleCol(board, x, y)
