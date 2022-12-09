@@ -1,6 +1,6 @@
 import {compose, report} from '@cullylarson/f'
 import {then} from '@cullylarson/p'
-import {readInput} from './lib.js'
+import {readInput, getCol} from './lib.js'
 import {rel, max} from '../lib.js'
 
 const isVisibleList = (list, tree, treeIdx) => {
@@ -17,16 +17,6 @@ const isVisibleList = (list, tree, treeIdx) => {
 
 const isVisibleRow = (board, x, y) => {
   return isVisibleList(board[y], board[y][x], x)
-}
-
-const getCol = (board, x) => {
-  const row = []
-
-  for(let y = 0; y < board.length; y++) {
-    row.push(board[y][x])
-  }
-
-  return row
 }
 
 const isVisibleCol = (board, x, y) => {
