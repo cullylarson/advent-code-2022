@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "lint": "esw --watch --color .",
+    "test": "node --experimental-vm-modules $(npm bin)/jest ./day-09",
     "test:days": "node --experimental-vm-modules $(npm bin)/jest ./test/days.test.js"
   },
   "author": "Cully Larson",
