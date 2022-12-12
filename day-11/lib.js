@@ -1,4 +1,4 @@
-import {compose, trim, split, map, toInt, curry, headN, get} from '@cullylarson/f'
+import {report, compose, trim, split, map, toInt, curry, headN, get} from '@cullylarson/f'
 import {then} from '@cullylarson/p'
 import {readFile} from '../lib.js'
 
@@ -11,6 +11,7 @@ const getStartingItems = str => {
   const parts = str.split(':')
 
   return compose(
+    map(x => BigInt(x)),
     map(toInt(0)),
     split(', '),
     trim,
@@ -20,7 +21,7 @@ const getStartingItems = str => {
 const operandToValue = operand => {
   return operand === 'old'
     ? 'old'
-    : toInt(0, operand)
+    : BigInt(toInt(0, operand))
 }
 
 const getOperation = str => {
@@ -91,6 +92,8 @@ const transferItem = (monkies, sourceMonkey, itemIdx, itemValue, destMonkeyIdx) 
   const destMonkey = monkies[destMonkeyIdx]
   sourceMonkey.items[itemIdx] = null
   destMonkey.items.push(itemValue)
+  // console.log('transfer', {source: sourceMonkey.num, dest: destMonkeyIdx, itemValue})
+  // console.log(monkies)
 
   return monkies
 }
@@ -98,16 +101,35 @@ const transferItem = (monkies, sourceMonkey, itemIdx, itemValue, destMonkeyIdx) 
 const runItem = (worryDivisor, monkies, monkey, itemIdx) => {
   monkey.inspections++
   const item = monkey.items[itemIdx]
-  const newItem = Math.floor(runOperation(item, monkey.operation) / worryDivisor)
+  const newItem = runOperation(item, monkey.operation) / BigInt(worryDivisor)
+  // console.log({n: monkey.num, item, newItem, op: monkey.operation, worryDivisor})
 
-  const destMonkeyIdx = newItem % monkey.test === 0
+  /*
+  if(Number(newItem) === 2080) {
+    console.log({newItem, test: monkey.test, result: newItem % BigInt(monkey.test)})
+  }
+  */
+
+  const destMonkeyIdx = newItem % BigInt(monkey.test) === 0n
     ? monkey.trueMonkey
     : monkey.falseMonkey
+
+  /*
+  if(destMonkeyIdx === 2) {
+    console.log('  ', {source: monkey.num, dest: destMonkeyIdx, item, newItem, test: monkey.test})
+  }
+  */
 
   return transferItem(monkies, monkey, itemIdx, newItem, destMonkeyIdx)
 }
 
 const runMonkey = curry((worryDivisor, monkies, monkey) => {
+  // console.log(`  #${monkey.num} -- ${monkey.inspections} -- ${monkey.items.length}`)
+  /*
+  if(monkey.num === 2) {
+    console.log('  ', monkey.items)
+  }
+  */
   for(let i = 0; i < monkey.items.length; i++) {
     monkies = runItem(worryDivisor, monkies, monkey, i)
   }
@@ -126,9 +148,19 @@ const runRound = (worryDivisor, monkies) => {
   return removeEmptyItems(monkies.reduce(runMonkey(worryDivisor), monkies))
 }
 
+const reportMonkies = monkies => {
+  for(const monkey of monkies) {
+    console.log(`#${monkey.num} -- ${monkey.inspections} -- ${monkey.items.length}`)
+  }
+}
+
 const runRounds = curry((worryDivisor, numRounds, monkies) => {
+  // console.log('START')
+  // reportMonkies(monkies)
   for(let i = 0; i < numRounds; i++) {
+    console.log(`RUN ROUND #${i + 1}`)
     monkies = runRound(worryDivisor, monkies)
+    // reportMonkies(monkies)
   }
 
   return monkies
@@ -141,6 +173,7 @@ export const run = curry((worryDivisor, numRounds) => compose(
   headN(2),
   xs => xs.sort(compareNum),
   map(get('inspections', 0)),
+  // report,
   runRounds(worryDivisor, numRounds),
 ))
 
