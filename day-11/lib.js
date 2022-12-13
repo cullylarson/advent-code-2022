@@ -95,10 +95,12 @@ const transferItem = (monkies, sourceMonkey, itemIdx, itemValue, destMonkeyIdx) 
   return monkies
 }
 
-const runItem = (worryDivisor, monkies, monkey, itemIdx) => {
+const runItem = (worryDivisor, worryMod, monkies, monkey, itemIdx) => {
   monkey.inspections++
   const item = monkey.items[itemIdx]
-  const newItem = Math.floor(runOperation(item, monkey.operation) / worryDivisor)
+  const newItem = worryMod
+    ? runOperation(item, monkey.operation) % worryMod
+    : Math.floor(runOperation(item, monkey.operation) / worryDivisor)
 
   const destMonkeyIdx = newItem % monkey.test === 0
     ? monkey.trueMonkey
@@ -107,9 +109,9 @@ const runItem = (worryDivisor, monkies, monkey, itemIdx) => {
   return transferItem(monkies, monkey, itemIdx, newItem, destMonkeyIdx)
 }
 
-const runMonkey = curry((worryDivisor, monkies, monkey) => {
+const runMonkey = curry((worryDivisor, worryMod, monkies, monkey) => {
   for(let i = 0; i < monkey.items.length; i++) {
-    monkies = runItem(worryDivisor, monkies, monkey, i)
+    monkies = runItem(worryDivisor, worryMod, monkies, monkey, i)
   }
 
   return monkies
@@ -122,13 +124,30 @@ const removeEmptyItems = monkies => {
   }))
 }
 
-const runRound = (worryDivisor, monkies) => {
-  return removeEmptyItems(monkies.reduce(runMonkey(worryDivisor), monkies))
+const runRound = (worryDivisor, worryMod, monkies) => {
+  return removeEmptyItems(monkies.reduce(runMonkey(worryDivisor, worryMod), monkies))
+}
+
+// for every large worry values, we can mod divide the worry value by the product
+// of all the monkey.test divisors and still have a value that will work the same
+// for all our test, while keeping the worry values low
+const getWorryMod = monkies => {
+  let divisor = 1
+
+  for(const monkey of monkies) {
+    divisor *= monkey.test
+  }
+
+  return divisor
 }
 
 const runRounds = curry((worryDivisor, numRounds, monkies) => {
+  const worryMod = worryDivisor === 1
+    ? getWorryMod(monkies)
+    : null
+
   for(let i = 0; i < numRounds; i++) {
-    monkies = runRound(worryDivisor, monkies)
+    monkies = runRound(worryDivisor, worryMod, monkies)
   }
 
   return monkies
